@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { Pair } from '@aliumswap/sdk'
-import { Button, CardBody, Text } from '@aliumswap/uikit'
+import { Pair } from '@alium-official/sdk'
+import { Button, CardBody, Text } from '@alium-official/uikit'
 
 import { Link } from 'react-router-dom'
 import CardNav from 'components/CardNav'
@@ -61,8 +61,8 @@ const StyledCardBody = styled.div<{ singleBlock?: boolean }>`
     padding: 26px 24px 32px 24px;
 
     ${({ singleBlock }) =>
-      singleBlock &&
-      `
+            singleBlock &&
+            `
       padding: 0; 
       height: 96px;
       flex-direction: row;
@@ -92,15 +92,15 @@ const StyledLiquidity = styled.div`
   justify-content: center;
   margin-bottom: 5px;
   ${(props: StyledLiquidityProps) =>
-    props.found &&
-    `
+          props.found &&
+          `
     justify-content: flex-start;
     border-bottom: 1px solid #F4F5FA;
     padding: 16px;
   `}
   @media screen and (max-width: 414px) {
-    padding-left: 24px;
-  }
+  padding-left: 24px;
+}
 `
 
 const StyledRightSide = styled.div``
@@ -182,15 +182,15 @@ export default function Pool() {
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
   const getButton = () => {
     return (
-      // chainId === 56 || chainId === 128 ? 
+      // chainId === 56 || chainId === 128 ?
       // (
       //   <Button disabled style={{ background: "#CBC8EE" }} id="join-pool-button" as={Link} to="/add/ETH">
       //     {t('addLiquidity')}
       //   </Button>
       // ) : (
-        <Button  id="join-pool-button" as={Link} to="/add/ETH">
-          {t('addLiquidity')}
-        </Button>
+      <Button id="join-pool-button" as={Link} to="/add/ETH">
+        {t('addLiquidity')}
+      </Button>
       // )
     )
   }
@@ -200,9 +200,7 @@ export default function Pool() {
       <AppBody>
         <PageHeader title={t('mainMenu.liquidity')} description={t('liquidityDescription')} />
         <StyledCardBody singleBlock={allV2PairsWithLiquidity?.length > 0}>
-          {!account ? (
-            <UnlockButton />
-          ) : getButton()}
+          {!account ? <UnlockButton /> : getButton()}
           <StyledRightSide>
             {allV2PairsWithLiquidity?.length === 0 && (
               <>

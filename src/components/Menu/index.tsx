@@ -1,11 +1,11 @@
 import React from 'react'
-import { Menu as UikitMenu, MenuEntry, useModal } from '@aliumswap/uikit'
+import { Menu as UikitMenu, MenuEntry, useModal } from '@alium-official/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
 import useAuth from 'hooks/useAuth'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import { ETHER, ChainId } from '@aliumswap/sdk'
+import { ETHER, ChainId } from '@alium-official/sdk'
 import { getExplorerLink, getExplorerName } from 'utils'
 import { useActiveWeb3React } from 'hooks'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
@@ -37,24 +37,24 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         // },
       ],
     },
-    {
-      label: 'Analytics',
-      icon: 'InfoIcon',
-      items: [
-        {
-          label: 'Overview',
-          href: process.env.REACT_APP_INFO_URL,
-        },
-        {
-          label: 'Tokens',
-          href: `${process.env.REACT_APP_INFO_URL}/tokens`,
-        },
-        {
-          label: 'Pairs',
-          href: `${process.env.REACT_APP_INFO_URL}/pairs`,
-        },
-      ],
-    },
+    // {
+    //   label: 'Analytics',
+    //   icon: 'InfoIcon',
+    //   items: [
+    //     {
+    //       label: 'Overview',
+    //       href: process.env.REACT_APP_INFO_URL as string,
+    //     },
+    //     {
+    //       label: 'Tokens',
+    //       href: `${process.env.REACT_APP_INFO_URL}/tokens`,
+    //     },
+    //     {
+    //       label: 'Pairs',
+    //       href: `${process.env.REACT_APP_INFO_URL}/pairs`,
+    //     },
+    //   ],
+    // },
     {
       label: t('mainMenu.more'),
       icon: 'MoreIcon',
@@ -63,6 +63,10 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         //   label: 'Voting',
         //   href: 'https://voting.dev.alium.finance',
         // },
+        {
+          label: 'Audits',
+          href: `${process.env.REACT_APP_HOME_URL}/audits`,
+        },
         {
           label: t('mainMenu.github'),
           href: 'https://github.com/Aliumswap',
@@ -86,12 +90,10 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const balance = useCurrencyBalance(account as string, ETHER)
   const explorerName = getExplorerName(chainId as ChainId)
   const explorerLink = getExplorerLink(chainId as ChainId, account as string, 'address')
-  const useBalance = async () => {
-    // const bal = useCurrencyBalance(account as string, ETHER)
-    // return bal?.toSignificant(6);
-    const result = await useCurrencyBalance(account as string, ETHER)
-    return result
-  }
+  // const useBalance = async () => {
+  //   const result = await useCurrencyBalance(account as string, ETHER)
+  //   return result
+  // }
 
   // useBalance().then((result)=>console.log(result))
 
@@ -121,7 +123,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       onTransactionHistoryHandler={transactionsHistoryModal}
       betaText="This is the main version. Press here to switch to Beta."
       betaLink="https://beta.exchange.alium.finance"
-      balanceHook={useBalance}
+      balanceHook={async () => null}
       {...props}
     />
   )

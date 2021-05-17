@@ -2,10 +2,10 @@ import React, { useCallback, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@aliumswap/sdk'
-import { AddIcon, Button, CardBody, Text, Text as UIKitText } from '@aliumswap/uikit'
+import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@alium-official/sdk'
+import { AddIcon, Button, CardBody, Text, Text as UIKitText } from '@alium-official/uikit'
 import { useTranslation } from 'react-i18next'
-import { RouteComponentProps } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { LightCard } from 'components/Card'
 import { AutoColumn, ColumnCenter } from 'components/Column'
 import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
@@ -75,15 +75,16 @@ const StyledUIKitText = styled(UIKitText)`
   }
 `
 
-export default function AddLiquidity({
-  match: {
-    params: { currencyIdA, currencyIdB },
-  },
-  history,
-}: RouteComponentProps<{ currencyIdA?: string; currencyIdB?: string }>) {
-  const { account, chainId, library } = useActiveWeb3React()
+type props = {
+  currencyIdA?: string
+  currencyIdB?: string
+}
+
+const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
+  const history = useHistory()
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
+  const { account, chainId, library } = useActiveWeb3React()
 
   const oneCurrencyIsWETH = Boolean(
     chainId &&
@@ -119,6 +120,7 @@ export default function AddLiquidity({
   const [deadline] = useUserDeadline() // custom from users settings
   const [allowedSlippage] = useUserSlippageTolerance() // custom from users
   const [txHash, setTxHash] = useState<string>('')
+  const { t } = useTranslation()
 
   // get formatted amounts
   const formattedAmounts = {
@@ -176,7 +178,7 @@ export default function AddLiquidity({
 
   const addTransaction = useTransactionAdder()
 
-  async function onAdd() {
+  const onAdd = async () => {
     if (!chainId || !library || !account) return
     const router = getRouterContract(chainId, library, account)
 
@@ -307,8 +309,6 @@ export default function AddLiquidity({
       />
     )
   }
-
-  const { t } = useTranslation()
 
   const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
     currencies[Field.CURRENCY_A]?.symbol
@@ -515,3 +515,5 @@ export default function AddLiquidity({
     </CardWrapper>
   )
 }
+
+export default AddLiquidity

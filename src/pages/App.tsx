@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch } from 'react-router-dom'
 import styled from 'styled-components'
-import { NotFound } from '@aliumswap/uikit'
+import { NotFound } from '@alium-official/uikit'
 
 import backgroundImage from 'assets/svg/trade-background.svg'
 import useEagerConnect from 'hooks/useEagerConnect'
@@ -14,7 +14,7 @@ import {
 } from './AddLiquidity/redirects'
 import Pool from './Pool'
 import PoolFinder from './PoolFinder'
-import RemoveLiquidity from './RemoveLiquidity'
+import { RemoveLiquidity } from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
@@ -76,6 +76,7 @@ const DefaultRoute = ({ ...props }: RouteProps) => {
 
 export default function App() {
   useEagerConnect()
+
   return (
     <Suspense fallback={null}>
       <Router>
