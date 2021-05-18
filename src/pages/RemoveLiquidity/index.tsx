@@ -1,46 +1,40 @@
-import React, { FC, useCallback, useMemo, useState } from 'react'
-import styled from 'styled-components'
+import { ChainId, Currency, currencyEquals, ETHER, Percent, WETH } from '@alium-official/sdk'
+import { AddIcon, Button, Flex, Text } from '@alium-official/uikit'
+import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, Percent, WETH, ChainId } from '@alium-official/sdk'
-import { AddIcon, Button, Flex, Text } from '@alium-official/uikit'
-
-import { ArrowDown, ChevronDown } from 'react-feather'
-
-import { BigNumber } from '@ethersproject/bignumber'
-import { ROUTER_ADDRESS } from 'config/contracts'
-
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import { ROUTER_ADDRESS } from 'config/contracts'
+import React, { FC, useCallback, useMemo, useState } from 'react'
+import { ArrowDown, ChevronDown } from 'react-feather'
 import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
-import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
+import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { AddRemoveTabs } from '../../components/NavigationTabs'
 import { MinimalPositionCard } from '../../components/PositionCard'
 import { RowBetween, RowFixed } from '../../components/Row'
-
+import { StyledInternalLink } from '../../components/Shared'
 import Slider from '../../components/Slider'
-import CurrencyLogo from '../../components/CurrencyLogo'
+import { Dots } from '../../components/swap/styleds'
+import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
+import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { usePairContract } from '../../hooks/useContract'
-
+import { Field } from '../../state/burn/actions'
+import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
 import { useTransactionAdder } from '../../state/transactions/hooks'
-import { StyledInternalLink } from '../../components/Shared'
+import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from '../../utils'
 import { currencyId } from '../../utils/currencyId'
 import useDebouncedChangeHandler from '../../utils/useDebouncedChangeHandler'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import AppBody from '../AppBody'
 import { ClickableText, Wrapper } from '../Pool/styleds'
-import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-import { Dots } from '../../components/swap/styleds'
-import { useBurnActionHandlers, useDerivedBurnInfo, useBurnState } from '../../state/burn/hooks'
-
-import { Field } from '../../state/burn/actions'
-import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
 
 const OutlineCard = styled.div`
   padding: 17px 24px;
@@ -83,11 +77,10 @@ export const RemoveLiquidity: FC = () => {
   const { currencyIdA, currencyIdB } = useParams<{ currencyIdA: string; currencyIdB: string }>()
   const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined]
   const { account, chainId, library } = useActiveWeb3React()
-  const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
-    currencyA,
-    currencyB,
-    chainId,
-  ])
+  const [tokenA, tokenB] = useMemo(
+    () => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)],
+    [currencyA, currencyB, chainId]
+  )
 
   // const theme = useContext(ThemeContext)
 
@@ -352,7 +345,7 @@ export const RemoveLiquidity: FC = () => {
     }
   }
 
-  const modalHeader = async () => {
+  const modalHeader = () => {
     return (
       <AutoColumn gap="md" style={{ marginTop: '0' }}>
         <RowBetween
@@ -402,7 +395,7 @@ export const RemoveLiquidity: FC = () => {
     padding: 6px 8px;
   `
 
-  const modalBottom = async () => {
+  const modalBottom = () => {
     return (
       <>
         <RowBetween style={{ padding: '6px 8px' }}>
@@ -529,7 +522,14 @@ export const RemoveLiquidity: FC = () => {
               <OutlineCard>
                 <AutoColumn gap="8px">
                   <RowBetween>
-                    <Text style={{ color: '#8990A5', fontWeight: 500, letterSpacing: '0.3px', fontSize: '16px' }}>
+                    <Text
+                      style={{
+                        color: '#8990A5',
+                        fontWeight: 500,
+                        letterSpacing: '0.3px',
+                        fontSize: '16px',
+                      }}
+                    >
                       Amount
                     </Text>
                     <ClickableText
@@ -547,7 +547,12 @@ export const RemoveLiquidity: FC = () => {
                   <Flex justifyContent="start">
                     <Text
                       fontSize="40px"
-                      style={{ color: '#0B1359', fontWeight: 700, letterSpacing: '0.3px', lineHeight: '1' }}
+                      style={{
+                        color: '#0B1359',
+                        fontWeight: 700,
+                        letterSpacing: '0.3px',
+                        lineHeight: '1',
+                      }}
                     >
                       {formattedAmounts[Field.LIQUIDITY_PERCENT]}%
                     </Text>
@@ -562,7 +567,12 @@ export const RemoveLiquidity: FC = () => {
                           variant="tertiary"
                           size="sm"
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '25')}
-                          style={{ height: '24px', width: '37px', fontSize: '10px', fontWeight: 'bold' }}
+                          style={{
+                            height: '24px',
+                            width: '37px',
+                            fontSize: '10px',
+                            fontWeight: 'bold',
+                          }}
                         >
                           25%
                         </Button>
@@ -570,7 +580,12 @@ export const RemoveLiquidity: FC = () => {
                           variant="tertiary"
                           size="sm"
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '50')}
-                          style={{ height: '24px', width: '37px', fontSize: '10px', fontWeight: 'bold' }}
+                          style={{
+                            height: '24px',
+                            width: '37px',
+                            fontSize: '10px',
+                            fontWeight: 'bold',
+                          }}
                         >
                           50%
                         </Button>
@@ -578,7 +593,12 @@ export const RemoveLiquidity: FC = () => {
                           variant="tertiary"
                           size="sm"
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '75')}
-                          style={{ height: '24px', width: '37px', fontSize: '10px', fontWeight: 'bold' }}
+                          style={{
+                            height: '24px',
+                            width: '37px',
+                            fontSize: '10px',
+                            fontWeight: 'bold',
+                          }}
                         >
                           75%
                         </Button>
@@ -586,7 +606,12 @@ export const RemoveLiquidity: FC = () => {
                           variant="tertiary"
                           size="sm"
                           onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
-                          style={{ height: '24px', width: '37px', fontSize: '10px', fontWeight: 'bold' }}
+                          style={{
+                            height: '24px',
+                            width: '37px',
+                            fontSize: '10px',
+                            fontWeight: 'bold',
+                          }}
                         >
                           Max
                         </Button>
@@ -617,7 +642,13 @@ export const RemoveLiquidity: FC = () => {
                           </Text>
                         </RowFixed>
                       </RowBetween>
-                      <RowBetween style={{ backgroundColor: '#F4F5FA', padding: '10px 16px', borderRadius: '6px' }}>
+                      <RowBetween
+                        style={{
+                          backgroundColor: '#F4F5FA',
+                          padding: '10px 16px',
+                          borderRadius: '6px',
+                        }}
+                      >
                         <Text fontSize="14px" style={{ fontWeight: 500 }}>
                           {formattedAmounts[Field.CURRENCY_B] || '-'}
                         </Text>
