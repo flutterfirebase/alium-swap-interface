@@ -1,13 +1,13 @@
-import React from 'react'
+import { ChainId, ETHER } from '@alium-official/sdk'
 import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from '@alium-official/uikit'
 import { useWeb3React } from '@web3-react/core'
-import { useTranslation } from 'react-i18next'
-import useTheme from 'hooks/useTheme'
-import useAuth from 'hooks/useAuth'
-import { useCurrencyBalance } from 'state/wallet/hooks'
-import { ETHER, ChainId } from '@alium-official/sdk'
-import { getExplorerLink, getExplorerName } from 'utils'
 import { useActiveWeb3React } from 'hooks'
+import useAuth from 'hooks/useAuth'
+import useTheme from 'hooks/useTheme'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { useCurrencyBalance } from 'state/wallet/hooks'
+import { getExplorerLink, getExplorerName } from 'utils'
 import RecentTransactionsModal from '../PageHeader/RecentTransactionsModal'
 
 const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ...props }) => {
@@ -37,6 +37,8 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         // },
       ],
     },
+
+    { label: 'Token holder area', icon: 'PrivateRoundIcon', href: process.env.REACT_APP_ACCOUNT_LINK || '' },
     // {
     //   label: 'Analytics',
     //   icon: 'InfoIcon',
