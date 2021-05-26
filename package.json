@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@alium-official/sdk": "^1.1.11",
-    "@alium-official/uikit": "^0.11.58",
+    "@alium-official/uikit": "^0.11.59",
     "@binance-chain/bsc-connector": "^1.0.3",
     "@crowdin/crowdin-api-client": "^1.10.6",
     "@ethersproject/experimental": "^5.1.2",
@@ -81,6 +81,7 @@
     "react-device-detect": "^1.17.0",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
+    "react-gtm-module": "^2.0.11",
     "react-i18next": "^11.8.15",
     "react-popper": "^2.2.5",
     "react-redux": "^7.2.4",
