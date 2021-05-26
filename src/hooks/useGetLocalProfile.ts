@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { getMainDomain } from '@alium-official/uikit'
 import { useActiveWeb3React } from 'hooks'
+import { useEffect, useState } from 'react'
 
 const initialState = {
-  profileLink: 'https://alium.finance/profile',
-  noProfileLink: 'https://alium.finance/profile',
+  profileLink: `https://${getMainDomain()}/profile`,
+  noProfileLink: `https://${getMainDomain()}/profile`,
 }
 
 /**

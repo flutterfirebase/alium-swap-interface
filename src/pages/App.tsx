@@ -1,11 +1,11 @@
+import { getMainDomain, NotFound } from '@alium-official/uikit'
+import backgroundImage from 'assets/svg/trade-background.svg'
+import useEagerConnect from 'hooks/useEagerConnect'
 import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch } from 'react-router-dom'
 import styled from 'styled-components'
-import { NotFound } from '@alium-official/uikit'
-
-import backgroundImage from 'assets/svg/trade-background.svg'
-import useEagerConnect from 'hooks/useEagerConnect'
-
+import Menu from '../components/Menu'
+import Web3ReactManager from '../components/Web3ReactManager'
 import AddLiquidity from './AddLiquidity'
 import {
   RedirectDuplicateTokenIds,
@@ -18,8 +18,6 @@ import { RemoveLiquidity } from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
-import Menu from '../components/Menu'
-import Web3ReactManager from '../components/Web3ReactManager'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -98,7 +96,7 @@ export default function App() {
               <DefaultRoute exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
               <Route>
                 <Menu loginBlockVisible={false}>
-                  <NotFound redirectURL={process.env.REACT_APP_HOME_URL} />
+                  <NotFound redirectURL={`https://${getMainDomain()}`} />
                 </Menu>
               </Route>
             </Switch>

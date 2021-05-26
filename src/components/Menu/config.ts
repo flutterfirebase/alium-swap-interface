@@ -1,10 +1,10 @@
-import { externalLinks, MenuEntry } from '@alium-official/uikit'
+import { externalLinks, getMainDomain, MenuEntry } from '@alium-official/uikit'
 
 const config: MenuEntry[] = [
   {
     label: 'Home',
     icon: 'HomeIcon',
-    href: process.env.REACT_APP_HOME_URL,
+    href: `https://${getMainDomain()}`,
   },
   {
     label: 'Trade',

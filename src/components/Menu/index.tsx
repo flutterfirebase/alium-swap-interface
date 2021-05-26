@@ -1,5 +1,5 @@
 import { ChainId, ETHER } from '@alium-official/sdk'
-import { externalLinks, Menu as UikitMenu, MenuEntry, useModal } from '@alium-official/uikit'
+import { externalLinks, getMainDomain, Menu as UikitMenu, MenuEntry, useModal } from '@alium-official/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
@@ -17,7 +17,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
     {
       label: t('mainMenu.home'),
       icon: 'HomeIcon',
-      href: process.env.REACT_APP_HOME_URL,
+      href: `https://${getMainDomain()}`,
     },
     {
       label: t('mainMenu.trade'),
@@ -62,11 +62,11 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       items: [
         // {
         //   label: 'Voting',
-        //   href: 'https://voting.dev.alium.finance',
+        //   href: `https://voting.${getMainDomain()}`,
         // },
         {
           label: 'Audits',
-          href: `${process.env.REACT_APP_HOME_URL}/audits`,
+          href: `${getMainDomain()}/audits`,
         },
         {
           label: t('mainMenu.github'),
