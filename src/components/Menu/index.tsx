@@ -66,7 +66,7 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
         // },
         {
           label: 'Audits',
-          href: `${getMainDomain()}/audits`,
+          href: `https://${getMainDomain()}/audits`,
         },
         {
           label: t('mainMenu.github'),
