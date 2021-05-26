@@ -1,11 +1,14 @@
-import { createReducer, nanoid } from '@reduxjs/toolkit'
+import { createReducer,nanoid } from '@reduxjs/toolkit'
 import {
-  addPopup,
-  PopupContent,
-  removePopup,
-  toggleWalletModal,
-  toggleSettingsMenu,
-  updateBlockNumber,
+addPopup,
+PopupContent,
+removePopup,
+
+setConnectionError,
+
+toggleSettingsMenu,toggleWalletModal,
+
+updateBlockNumber
 } from './actions'
 
 type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
@@ -15,6 +18,7 @@ export interface ApplicationState {
   popupList: PopupList
   walletModalOpen: boolean
   settingsMenuOpen: boolean
+  connectionError: any
 }
 
 const initialState: ApplicationState = {
@@ -22,6 +26,7 @@ const initialState: ApplicationState = {
   popupList: [],
   walletModalOpen: false,
   settingsMenuOpen: false,
+  connectionError: null
 }
 
 export default createReducer(initialState, (builder) =>
@@ -56,5 +61,8 @@ export default createReducer(initialState, (builder) =>
           p.show = false
         }
       })
+    })
+    .addCase(setConnectionError, (state, { payload: { error } }) => {
+      state.connectionError = error
     })
 )

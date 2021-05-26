@@ -1,6 +1,7 @@
 import { ChainId, ETHER } from '@alium-official/sdk'
 import { externalLinks, getMainDomain, Menu as UikitMenu, MenuEntry, useModal } from '@alium-official/uikit'
 import { useWeb3React } from '@web3-react/core'
+import ConnectionPending from 'components/ConnectionPending/ConnectionPending'
 import { useActiveWeb3React } from 'hooks'
 import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
@@ -101,32 +102,35 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
   const [transactionsHistoryModal] = useModal(<RecentTransactionsModal />)
 
   return (
-    <UikitMenu
-      // isProduction={process.env.NODE_ENV === "production"}
-      links={links}
-      account={account as string}
-      login={login}
-      logout={logout}
-      isDark={isDark}
-      toggleTheme={toggleTheme}
-      loginBlockVisible={loginBlockVisible}
-      buttonTitle={t('connect')}
-      balance={balance?.toSignificant(6)}
-      explorerName={explorerName}
-      explorerLink={explorerLink}
-      options={{
-        modalTitle: 'Account',
-        modalFooter: t('learnHowConnect'),
-        modelLogout: t('logout'),
-        modalBscScan: t('viewOnBscscan'),
-        modelCopyAddress: t('copyAddress'),
-      }}
-      onTransactionHistoryHandler={transactionsHistoryModal}
-      betaText="This is the main version. Press here to switch to Beta."
-      betaLink="https://beta.exchange.alium.finance"
-      balanceHook={async () => null}
-      {...props}
-    />
+    <>
+      <ConnectionPending />
+      <UikitMenu
+        // isProduction={process.env.NODE_ENV === "production"}
+        links={links}
+        account={account as string}
+        login={login}
+        logout={logout}
+        isDark={isDark}
+        toggleTheme={toggleTheme}
+        loginBlockVisible={loginBlockVisible}
+        buttonTitle={t('connect')}
+        balance={balance?.toSignificant(6)}
+        explorerName={explorerName}
+        explorerLink={explorerLink}
+        options={{
+          modalTitle: 'Account',
+          modalFooter: t('learnHowConnect'),
+          modelLogout: t('logout'),
+          modalBscScan: t('viewOnBscscan'),
+          modelCopyAddress: t('copyAddress'),
+        }}
+        onTransactionHistoryHandler={transactionsHistoryModal}
+        betaText="This is the main version. Press here to switch to Beta."
+        betaLink="https://beta.exchange.alium.finance"
+        balanceHook={async () => null}
+        {...props}
+      />
+    </>
   )
 }
 

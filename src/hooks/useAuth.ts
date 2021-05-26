@@ -1,6 +1,6 @@
-import { useCallback } from 'react'
-import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
+import { ConnectorNames, removeConnectorId } from '@alium-official/uikit'
 import { NoBscProviderError } from '@binance-chain/bsc-connector'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected,
@@ -9,14 +9,17 @@ import {
   UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
-import { ConnectorNames, removeConnectorId } from '@alium-official/uikit'
+import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+import { setConnectionError } from 'state/application/actions'
 import useToast from 'state/hooks'
-import { getConnectorsByName } from '../utils/web3React'
 import { setupNetwork } from '../utils/wallet'
+import { getConnectorsByName } from '../utils/web3React'
 
 const useAuth = () => {
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
+  const dispatch = useDispatch()
 
   const login = useCallback(
     (connectorID: ConnectorNames) => {
@@ -46,7 +49,8 @@ const useAuth = () => {
               }
               toastError('Authorization Error', 'Please authorize to access your account')
             } else {
-              toastError(error.name, error.message)
+              dispatch(setConnectionError({ error }))
+              // toastError(error.name, error.message)
             }
           }
         })
@@ -54,7 +58,7 @@ const useAuth = () => {
         toastError("Can't find connector", 'The connector config is wrong')
       }
     },
-    [activate, toastError]
+    [activate, toastError, dispatch]
   )
 
   return { login, logout: deactivate }
