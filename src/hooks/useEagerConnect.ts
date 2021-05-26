@@ -22,8 +22,6 @@ const useEagerConnect = () => {
   useEffect(() => {
     const connectorId = getConnectorId()
     const chainId = getChainId()
-    console.log('!! chainId', chainId)
-    console.log('!! connectorId', connectorId)
 
     if (connectorId === ConnectorNames.BSC && (chainId === 128 || chainId === 256)) {
       return
