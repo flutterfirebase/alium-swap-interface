@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const StyledRangeInput = styled.input<{ size: number }>`
@@ -100,7 +100,7 @@ const StyledRangeInput = styled.input<{ size: number }>`
 
 interface InputSliderProps {
   value: number
-  onChange: (value: number) => void
+  onChange: (value: number) => void,
   step?: number
   min?: number
   max?: number
@@ -108,20 +108,25 @@ interface InputSliderProps {
 }
 
 export default function Slider({ value, onChange, min = 0, step = 1, max = 100, size = 28 }: InputSliderProps) {
-  const changeCallback = useCallback(
-    (e) => {
-      onChange(parseInt(e.target.value))
-    },
-    [onChange]
-  )
+  const [range, setRange] = useState(value)
+  const updateRange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRange(parseInt(e.target.value))
+  }
+  const changeCallback = (e) => {
+    onChange(parseInt(e.target.value))
+    updateRange(e)
+  }
 
   return (
     <StyledRangeInput
       size={size}
       type="range"
-      value={value}
+      value={range}
       style={{ width: '100%', padding: '15px 0' }}
-      onChange={changeCallback}
+      onChange={updateRange}
+      onMouseUp={changeCallback}
+      onPointerUp={changeCallback}
+      onTouchEnd={changeCallback}
       aria-labelledby="input slider"
       step={step}
       min={min}
