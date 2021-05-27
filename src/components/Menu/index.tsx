@@ -24,63 +24,30 @@ const Menu: React.FC<{ loginBlockVisible?: boolean }> = ({ loginBlockVisible, ..
       label: t('mainMenu.trade'),
       icon: 'TradeIcon',
       items: [
-        {
-          label: t('swap'),
-          href: '/swap',
-        },
-        {
-          label: t('mainMenu.liquidity'),
-          href: '/pool',
-        },
-        // {
-        //   label: 'Migrate',
-        //   href: '/migrate',
-        // },
+        { label: t('swap'), href: `https://exchange.${getMainDomain()}` },
+        { label: t('mainMenu.liquidity'), href: `https://exchange.${getMainDomain()}/pool` },
       ],
     },
-
+    { label: 'Token holder area', icon: 'PrivateRoundIcon', href: `https://account.${getMainDomain()}` },
     // {
     //   label: 'Analytics',
     //   icon: 'InfoIcon',
     //   items: [
-    //     {
-    //       label: 'Overview',
-    //       href: process.env.REACT_APP_INFO_URL as string,
-    //     },
-    //     {
-    //       label: 'Tokens',
-    //       href: `${process.env.REACT_APP_INFO_URL}/tokens`,
-    //     },
-    //     {
-    //       label: 'Pairs',
-    //       href: `${process.env.REACT_APP_INFO_URL}/pairs`,
-    //     },
+    //     { label: 'Overview', href: `https://info.${getMainDomain()}` },
+    //     { label: 'Tokens', href: `https://info.${getMainDomain()}/tokens` },
+    //     { label: 'Pairs', href: `https://info.${getMainDomain()}/pairs` },
     //   ],
     // },
     {
       label: t('mainMenu.more'),
       icon: 'MoreIcon',
       items: [
-        // {
-        //   label: 'Voting',
-        //   href: `https://voting.${getMainDomain()}`,
-        // },
-        {
-          label: 'Audits',
-          href: `https://${getMainDomain()}/audits`,
-        },
-        {
-          label: t('mainMenu.github'),
-          href: externalLinks.github,
-        },
-        {
-          label: t('mainMenu.docs'),
-          href: 'https://aliumswap.gitbook.io/alium-finance',
-        },
-        {
-          label: t('mainMenu.blog'),
-          href: externalLinks.medium,
-        },
+        { label: 'Audits', href: `https://${getMainDomain()}/audits` },
+        // { label: 'Voting', href: 'https://voting.dev.alium.finance' },
+        { label: t('mainMenu.github'), href: externalLinks.github },
+        // { label: 'Docs', href: 'https://docs.pancakeswap.finance' },
+        { label: 'Docs', href: 'https://aliumswap.gitbook.io/alium-finance/' },
+        { label: t('mainMenu.blog'), href: externalLinks.medium },
       ],
     },
   ]
