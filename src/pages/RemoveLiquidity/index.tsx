@@ -1,40 +1,40 @@
-import { ChainId, Currency, currencyEquals, ETHER, Percent, WETH } from '@alium-official/sdk'
-import { AddIcon, Button, Flex, Text } from '@alium-official/uikit'
+import { ChainId,Currency,currencyEquals,ETHER,Percent,WETH } from '@alium-official/sdk'
+import { AddIcon,Button,Flex,Text } from '@alium-official/uikit'
 import { BigNumber } from '@ethersproject/bignumber'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { ROUTER_ADDRESS } from 'config/contracts'
-import React, { FC, useCallback, useMemo, useState } from 'react'
-import { ArrowDown, ChevronDown } from 'react-feather'
-import { useHistory, useParams } from 'react-router-dom'
+import React,{ FC,useCallback,useMemo,useState } from 'react'
+import { ArrowDown,ChevronDown } from 'react-feather'
+import { useHistory,useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { AutoColumn, ColumnCenter } from '../../components/Column'
+import { AutoColumn,ColumnCenter } from '../../components/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { AddRemoveTabs } from '../../components/NavigationTabs'
 import { MinimalPositionCard } from '../../components/PositionCard'
-import { RowBetween, RowFixed } from '../../components/Row'
+import { RowBetween,RowFixed } from '../../components/Row'
 import { StyledInternalLink } from '../../components/Shared'
 import Slider from '../../components/Slider'
 import { Dots } from '../../components/swap/styleds'
-import TransactionConfirmationModal, { ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
+import TransactionConfirmationModal,{ ConfirmationModalContent } from '../../components/TransactionConfirmationModal'
 import { useActiveWeb3React } from '../../hooks'
 import { useCurrency } from '../../hooks/Tokens'
-import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
+import { ApprovalState,useApproveCallback } from '../../hooks/useApproveCallback'
 import { usePairContract } from '../../hooks/useContract'
 import { Field } from '../../state/burn/actions'
-import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from '../../state/burn/hooks'
+import { useBurnActionHandlers,useBurnState,useDerivedBurnInfo } from '../../state/burn/hooks'
 import { useTransactionAdder } from '../../state/transactions/hooks'
-import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
-import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from '../../utils'
+import { useUserDeadline,useUserSlippageTolerance } from '../../state/user/hooks'
+import { calculateGasMargin,calculateGasPrice,calculateSlippageAmount,getRouterContract } from '../../utils'
 import { currencyId } from '../../utils/currencyId'
 import useDebouncedChangeHandler from '../../utils/useDebouncedChangeHandler'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import AppBody from '../AppBody'
-import { ClickableText, Wrapper } from '../Pool/styleds'
+import { ClickableText,Wrapper } from '../Pool/styleds'
 
 const OutlineCard = styled.div`
   padding: 17px 24px;
@@ -499,24 +499,24 @@ export const RemoveLiquidity: FC = () => {
 
   return (
     <>
+      <TransactionConfirmationModal
+        isOpen={showConfirm}
+        onDismiss={handleDismissConfirmation}
+        attemptingTxn={attemptingTxn}
+        hash={txHash || ''}
+        content={() => (
+          <ConfirmationModalContent
+            title="You will receive"
+            onDismiss={handleDismissConfirmation}
+            topContent={modalHeader}
+            bottomContent={modalBottom}
+          />
+        )}
+        pendingText={pendingText}
+      />
       <AppBody>
         <AddRemoveTabs adding={false} />
         <StyledWrapper>
-          <TransactionConfirmationModal
-            isOpen={showConfirm}
-            onDismiss={handleDismissConfirmation}
-            attemptingTxn={attemptingTxn}
-            hash={txHash || ''}
-            content={() => (
-              <ConfirmationModalContent
-                title="You will receive"
-                onDismiss={handleDismissConfirmation}
-                topContent={modalHeader}
-                bottomContent={modalBottom}
-              />
-            )}
-            pendingText={pendingText}
-          />
           <AutoColumn>
             <Body>
               <OutlineCard>
