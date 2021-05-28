@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
 import { ConnectorNames, getChainId, getConnectorId } from '@alium-official/uikit'
 import useAuth from 'hooks/useAuth'
+import { useEffect } from 'react'
 
 const _binanceChainListener = async () =>
   new Promise<void>((resolve) =>

@@ -54,6 +54,7 @@ describe('retry', () => {
     const promises = []
     for (let i = 0; i < 10; i++) {
       promises.push(
+        // @ts-ignore
         checkTime(
           () => expect(retry(makeFn(4, 'abc'), { n: 3, maxWait: 100, minWait: 50 }).promise).rejects.toThrow('failure'),
           150,

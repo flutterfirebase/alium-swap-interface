@@ -25,3 +25,4 @@ export const addPopup = createAction<{ key?: string; removeAfterMs?: number | nu
   'app/addPopup'
 )
 export const removePopup = createAction<{ key: string }>('app/removePopup')
+export const setConnectionError = createAction<{ error: any }>('auth/setConnectionError')

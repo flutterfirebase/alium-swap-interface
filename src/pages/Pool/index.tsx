@@ -1,24 +1,22 @@
-import React, { useContext, useMemo } from 'react'
-import styled, { ThemeContext } from 'styled-components'
 import { Pair } from '@alium-official/sdk'
 import { Button, CardBody, Text } from '@alium-official/uikit'
-
-import { Link } from 'react-router-dom'
-import CardNav from 'components/CardNav'
-import Question from 'components/QuestionHelper'
-import FullPositionCard from 'components/PositionCard'
-import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
-import { StyledInternalLink, TYPE } from 'components/Shared'
 import { LightCard } from 'components/Card'
+import CardNav from 'components/CardNav'
 import { AutoColumn } from 'components/Column'
-
-import { useActiveWeb3React } from 'hooks'
-import { usePairs } from 'data/Reserves'
-import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
-import { Dots } from 'components/swap/styleds'
-import PageHeader from 'components/PageHeader'
-import { useTranslation } from 'react-i18next'
 import UnlockButton from 'components/ConnectWalletButton'
+import PageHeader from 'components/PageHeader'
+import FullPositionCard from 'components/PositionCard'
+import Question from 'components/QuestionHelper'
+import { StyledInternalLink, TYPE } from 'components/Shared'
+import { Dots } from 'components/swap/styleds'
+import { usePairs } from 'data/Reserves'
+import { useActiveWeb3React } from 'hooks'
+import React, { useContext, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
+import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
+import styled, { ThemeContext } from 'styled-components'
 import AppBody from '../AppBody'
 
 const { body: Body } = TYPE
@@ -61,8 +59,8 @@ const StyledCardBody = styled.div<{ singleBlock?: boolean }>`
     padding: 26px 24px 32px 24px;
 
     ${({ singleBlock }) =>
-            singleBlock &&
-            `
+      singleBlock &&
+      `
       padding: 0; 
       height: 96px;
       flex-direction: row;
@@ -91,16 +89,16 @@ const StyledLiquidity = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 5px;
+  @media screen and (max-width: 414px) {
+    padding-left: 24px;
+  }
   ${(props: StyledLiquidityProps) =>
-          props.found &&
-          `
+    props.found &&
+    `
     justify-content: flex-start;
     border-bottom: 1px solid #F4F5FA;
     padding: 16px;
   `}
-  @media screen and (max-width: 414px) {
-  padding-left: 24px;
-}
 `
 
 const StyledRightSide = styled.div``
@@ -160,9 +158,10 @@ export default function Pool() {
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
     [trackedTokenPairs]
   )
-  const liquidityTokens = useMemo(() => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken), [
-    tokenPairsWithLiquidityTokens,
-  ])
+  const liquidityTokens = useMemo(
+    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
+    [tokenPairsWithLiquidityTokens]
+  )
   const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
     account ?? undefined,
     liquidityTokens

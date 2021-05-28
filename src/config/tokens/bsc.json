@@ -35,6 +35,22 @@
       "logoURI": "/images/coins/USDT.png"
     },
     {
+      "name": "USDT(Testnet)",
+      "symbol": "USDT(Testnet)",
+      "address": "0xA11c8D9DC9b66E209Ef60F0C8D969D3CD988782c",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "/images/coins/USDT.png"
+    },
+    {
+      "name": "BUSD(Testnet)",
+      "symbol": "BUSD(Testnet)",
+      "address": "0x8301F2213c0eeD49a7E28Ae4c3e91722919B8B47",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "/images/coins/USDT.png"
+    },
+    {
       "name": "DAI (ALium Test)",
       "symbol": "DAI (Test)",
       "address": "0x618549d304828c77dcb590d02e3641b03e6f4176",
