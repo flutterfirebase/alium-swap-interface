@@ -1,4 +1,5 @@
-import { Currency, ETHER, Token, ChainId } from '@alium-official/sdk'
+import { ChainId, Currency, ETHER, Token } from '@alium-official/sdk'
+import { getChainId } from '@alium-official/uikit'
 import { useActiveWeb3React } from 'hooks'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
@@ -6,8 +7,8 @@ import BNBLogo from '../../assets/images/binance-logo.png'
 import HTlogo from '../../assets/images/heco-logo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
-import Logo from '../Logo'
 import CoinLogo from '../alium/CoinLogo'
+import Logo from '../Logo'
 
 const BaseLogo: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: BNBLogo,
@@ -40,7 +41,12 @@ export default function CurrencyLogo({
   size?: string
   style?: React.CSSProperties
 }) {
-  const { chainId } = useActiveWeb3React()
+  let { chainId } = useActiveWeb3React()
+  const chainIdInCookie = getChainId()
+  if (chainIdInCookie) {
+    chainId = chainIdInCookie
+  }
+
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
   const srcs: string[] = useMemo(() => {
