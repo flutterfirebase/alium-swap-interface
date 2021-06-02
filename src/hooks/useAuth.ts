@@ -26,12 +26,12 @@ const useAuth = () => {
       try {
         const { chainId, connector } = getConnectorsByName(connectorID)
         if (connector) {
-          activate(connector, async (error: Error) => {
+          await activate(connector, async (error: Error) => {
             if (error instanceof UnsupportedChainIdError) {
               const hasSetup = await setupNetwork(chainId)
               if (hasSetup) {
                 try {
-                  activate(connector, (err) => console.error('err :>> ', err))
+                  await activate(connector, (err) => console.error('err :>> ', err))
                 } catch (err) {
                   console.error('err :>> ', err)
                 }
