@@ -1,38 +1,37 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import styled from 'styled-components'
-import { BigNumber } from '@ethersproject/bignumber'
-import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@alium-official/sdk'
 import { AddIcon, Button, CardBody, Text, Text as UIKitText } from '@alium-official/uikit'
-import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { BigNumber } from '@ethersproject/bignumber'
+import { TransactionResponse } from '@ethersproject/providers'
 import { LightCard } from 'components/Card'
-import { AutoColumn, ColumnCenter } from 'components/Column'
-import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
 import CardNav from 'components/CardNav'
+import { AutoColumn, ColumnCenter } from 'components/Column'
+import ConnectWalletButton from 'components/ConnectWalletButton'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import DoubleCurrencyLogo from 'components/DoubleLogo'
+import Loader from 'components/Loader'
 import { AddRemoveTabs } from 'components/NavigationTabs'
+import Pane from 'components/Pane'
 import { MinimalPositionCard } from 'components/PositionCard'
 import Row, { AutoRow, RowBetween, RowFlat } from 'components/Row'
-import Loader from 'components/Loader'
-
+import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
+import { ROUTER_ADDRESS } from 'config/contracts'
 import { PairState } from 'data/Reserves'
 import { useActiveWeb3React } from 'hooks'
 import { useCurrency } from 'hooks/Tokens'
+import { useLiquidityPriorityDefaultAlm } from 'hooks/useAlm'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 import { Field } from 'state/mint/actions'
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from 'state/mint/hooks'
-
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from 'state/user/hooks'
+import styled from 'styled-components'
 import { calculateGasMargin, calculateGasPrice, calculateSlippageAmount, getRouterContract } from 'utils'
+import { currencyId } from 'utils/currencyId'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { currencyId } from 'utils/currencyId'
-import Pane from 'components/Pane'
-import ConnectWalletButton from 'components/ConnectWalletButton'
-import { ROUTER_ADDRESS } from 'config/contracts'
 import AppBody from '../AppBody'
 import { Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
@@ -329,6 +328,9 @@ const AddLiquidity: React.FC<props> = ({ currencyIdA, currencyIdB }) => {
     },
     [currencyIdB, history, currencyIdA]
   )
+
+  useLiquidityPriorityDefaultAlm()
+  
   const handleCurrencyBSelect = useCallback(
     (currB: Currency) => {
       setApprovalSubmittedB(false)
