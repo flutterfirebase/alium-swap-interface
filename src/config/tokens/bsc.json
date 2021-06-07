@@ -24,7 +24,7 @@
       "address": "0xB42A8e21f983A56d1e8D1b8f83CE51A9Eb0241FC",
       "chainId": 97,
       "decimals": 18,
-      "logoURI": "/images/coins/ETH.png"
+      "logoURI": "https://github.com/Alium-Finance/alium-swap-interface/blob/master/public/images/coins/ALM.png?raw=true"
     },
     {
       "name": "USDT (ALium Test)",
