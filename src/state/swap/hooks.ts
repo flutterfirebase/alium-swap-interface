@@ -26,7 +26,6 @@ export const useAlmToken = () => {
   const ALM_TOKEN = Object.values(useAllTokens()).find((token) => token.symbol === 'ALM' && token.chainId === chainId)
   return ALM_TOKEN
 }
-
 export function useSwapActionHandlers(): {
   onCurrencySelection: (field: Field, currency: Currency) => void
   onSwitchTokens: () => void
@@ -160,8 +159,7 @@ export function useDerivedSwapInfo(): {
 
   const inputCurrency = useCurrency(inputCurrencyId)
   const { t } = useTranslation()
-  const almToken = useAlmToken()
-  const outputCurrency = useCurrency(outputCurrencyId || almToken?.address)
+  const outputCurrency = useCurrency(outputCurrencyId)
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
 
@@ -392,17 +390,19 @@ export function useDefaultsFromURLSearch():
   const parsedQs = useParsedQueryString()
   const [result, setResult] =
     useState<{ inputCurrencyId: string | undefined; outputCurrencyId: string | undefined } | undefined>()
+  // for set alm token as default
+  const ALMCurrencyId = useAlmToken()?.address
 
   useEffect(() => {
     if (!chainId) return
     const parsed = queryParametersToSwapState(parsedQs)
-
+    const outpudId = parsed[Field.OUTPUT].currencyId || ALMCurrencyId
     dispatch(
       replaceSwapState({
         typedValue: parsed.typedValue,
         field: parsed.independentField,
         inputCurrencyId: parsed[Field.INPUT].currencyId,
-        outputCurrencyId: parsed[Field.OUTPUT].currencyId,
+        outputCurrencyId: outpudId,
         recipient: parsed.recipient,
       })
     )
