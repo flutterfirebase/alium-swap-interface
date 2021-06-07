@@ -16,7 +16,7 @@
       "address": "0xf671C33452adfB8e0f645d95d8E3C6Df0d78fED2",
       "chainId": 97,
       "decimals": 18,
-      "logoURI": "/images/coins/ALM.png"
+      "logoURI": "https://github.com/Alium-Finance/alium-swap-interface/blob/master/public/images/coins/ALM.png?raw=true"
     },
     {
       "name": "XXX1 Swap (Alium Test)",
@@ -24,7 +24,7 @@
       "address": "0xB42A8e21f983A56d1e8D1b8f83CE51A9Eb0241FC",
       "chainId": 97,
       "decimals": 18,
-      "logoURI": "https://github.com/Alium-Finance/alium-swap-interface/blob/master/public/images/coins/ALM.png?raw=true"
+      "logoURI": "/images/coins/ETH.png"
     },
     {
       "name": "USDT (ALium Test)",
@@ -72,7 +72,7 @@
       "address": "0x7c38870e93a1f959cb6c533eb10bbc3e438aac11",
       "chainId": 56,
       "decimals": 18,
-      "logoURI": "/images/coins/ALM.png"
+      "logoURI": "https://github.com/Alium-Finance/alium-swap-interface/blob/master/public/images/coins/ALM.png?raw=true"
     },
     {
       "name": "WBNB Token",
