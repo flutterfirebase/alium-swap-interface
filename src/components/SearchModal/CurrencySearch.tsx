@@ -1,28 +1,28 @@
-import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Currency, ETHER, Token } from '@alium-official/sdk'
-import { Text, CloseIcon, IconButton } from '@alium-official/uikit'
-
+import { CloseIcon, IconButton, Text } from '@alium-official/uikit'
+import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import styled, { ThemeContext } from 'styled-components'
-import AutoSizer from 'react-virtualized-auto-sizer'
+import { arrayElementToTop } from 'utils/arrayElementToTop'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens, useToken } from '../../hooks/Tokens'
 import { useSelectedListInfo } from '../../state/lists/hooks'
-import { LinkStyledButton, TYPE } from '../Shared'
 import { isAddress } from '../../utils'
 import Card from '../Card'
 import Column from '../Column'
 import ListLogo from '../ListLogo'
 import QuestionHelper from '../QuestionHelper'
 import Row, { RowBetween } from '../Row'
+import { LinkStyledButton, TYPE } from '../Shared'
+import TranslatedText from '../TranslatedText'
 import CommonBases from './CommonBases'
 import CurrencyList from './CurrencyList'
 import { filterTokens } from './filtering'
 import SortButton from './SortButton'
 import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
-import TranslatedText from '../TranslatedText'
 
 const { main: Main } = TYPE
 
@@ -103,12 +103,16 @@ export function CurrencySearch({
       .filter((s) => s.length > 0)
     if (symbolMatch.length > 1) return sorted
 
-    return [
+    const sortedTokens = [
       ...(searchToken ? [searchToken] : []),
       // sort any exact symbol matches first
       ...sorted.filter((token) => token.symbol?.toLowerCase() === symbolMatch[0]),
       ...sorted.filter((token) => token.symbol?.toLowerCase() !== symbolMatch[0]),
     ]
+
+    const conditionForTokenToTop = (el: Token) => el.symbol === 'ALM'
+    const sortedWithAlmFirst: Token[] = arrayElementToTop(conditionForTokenToTop, sortedTokens)
+    return sortedWithAlmFirst
   }, [filteredTokens, searchQuery, searchToken, tokenComparator])
 
   const handleCurrencySelect = useCallback(
