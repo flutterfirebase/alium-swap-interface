@@ -1,11 +1,12 @@
 import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@alium-official/sdk'
 import { parseUnits } from '@ethersproject/units'
+import { useAlmToken } from 'hooks/useAlm'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
-import { useAllTokens, useCurrency } from '../../hooks/Tokens'
+import { useCurrency } from '../../hooks/Tokens'
 import { useTradeExactIn, useTradeExactOut } from '../../hooks/Trades'
 import useENS from '../../hooks/useENS'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
@@ -21,11 +22,6 @@ export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
 }
 
-export const useAlmToken = () => {
-  const { chainId } = useActiveWeb3React()
-  const ALM_TOKEN = Object.values(useAllTokens()).find((token) => token.symbol === 'ALM' && token.chainId === chainId)
-  return ALM_TOKEN
-}
 export function useSwapActionHandlers(): {
   onCurrencySelection: (field: Field, currency: Currency) => void
   onSwitchTokens: () => void
