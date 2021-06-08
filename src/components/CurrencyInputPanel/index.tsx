@@ -49,7 +49,7 @@ const LabelRow = styled.div`
   & ${Text} {
     background: #fff;
     padding: 4px;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1rem;
     font-weight: 500;
     color: ${({ theme }) => theme.colors.primaryBright};
